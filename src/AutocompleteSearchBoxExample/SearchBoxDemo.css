@@ -1,0 +1,50 @@
+.search-panel{
+    background-color: rgb(195, 248, 250);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    align-items: center;
+}
+
+.search-box{
+    max-width: 500px;
+    min-width: 400px;
+    display: flex;
+    margin: auto;
+    align-self: center;
+    align-content: center;
+}
+
+.suggestionItem {
+    /* padding-left: 5px;
+    padding-right: 5px; */
+    width: 350px;
+    border-bottom: 1px solid darkgray;
+}
+
+.suggestionItem :focus{
+    background-color: darkgray;
+}
+
+.suggestionItem :hover{
+    background-color: darkgray;
+}
+
+.suggestionTitleRow{
+    display: inline;
+}
+.suggestionTitle{
+    font-weight: bold;
+    color: blue;
+    text-align: left;
+}
+
+.suggestionPrice{
+    width: fit-content;
+    text-align: right;
+    color: darkcyan;
+}
+
+.suggestionSubtitle{
+    font-size: smaller;
+    text-align: left;
+}
