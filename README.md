@@ -1,46 +1,186 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# AutocompleteSearchBox
+This package is a suite of various react components and utilities.
 
-## Available Scripts
+## AutocompleteSearchBox 
+This component is an extension to the [@FluentUI SearchBox](https://developer.microsoft.com/en-us/fluentui#/controls/web/searchbox) to provide auto complete suggestions. 
+All the props available for the FluentUI SearchBox also apply to AutocompleteSearchBox. 
+The additional props are
 
-In the project directory, you can run:
+    
 
-### `npm start`
+    interface  IAutocompleteSearchBoxProps  extends  ISearchBoxProps {   
+	    suggestions?: string[] | ISuggestionItem[];    
+	    onSuggestionClicked: (suggestion: string | ISuggestionItem) =>  void;
+        inProgress?: boolean;
+    }
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    export  interface  ISuggestionItem {
+    	    getSuggestionItem: (query?: string) =>  JSX.Element;
+    	    getSearchText: () =>  string;
+    	}
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Currently there are 2 flavors of the component. 
 
-### `npm test`
+### With string suggestions
+![AutocompleSearchBox with string suggestions](https://isearchutils.azureedge.net/img/stringSuggestions.jpg)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+In this mode you pass the suggestions as a string array.
 
-### `npm run build`
+###  `Usage`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    const  heroes = [   
+		    "Iron Man",
+	        "Captain America",
+            "Thor",
+            "Hulk",
+            "Black Widow",
+            "Hawkeye",
+	        "Black Panther",
+	        "Ant Man",
+	        "Spiderman",
+        ];
+    
+    const [suggestions, setSuggestions] = React.useState<string[]>();
+    const  onChange = (newText?: string) => {
+        if (!newText || newText.trim() === "") {
+	        setSuggestions(undefined);
+        } else {
+	        setSuggestions(
+		        heroes.filter((hero) =>
+			        hero.toLowerCase().includes(newText.toLowerCase())
+			       ));
+	        }
+        };
+    
+    const  onSuggestionClicked = (suggestion: string | ISuggestionItem) => {
+	   alert(typeof  suggestion === "string" ? suggestion : suggestion.getSearchText());
+    };
+    
+	<AutocompleteSearchBox    
+	    className="search-box"    
+	    onSuggestionClicked={onSuggestionClicked}
+        onChange={(_, newValue) => {
+        onChange(newValue);
+       }}
+       suggestions={suggestions}>
+     </AutocompleteSearchBox>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### With custom layout suggestions
+![AutocompleteSearchBox with custom suggestions](https://isearchutils.azureedge.net/img/customSuggestions.jpg)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+In this mode, you pass the suggestions as an array of objects that implement `ISuggestionItem` interface.
 
-### `npm run eject`
+### `Usage`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+	    const queryThreshold = 3;
+	    const [inProgress, setProgress] = React.useState(false);
+	    const [dynamicSuggestions, setDynamicSuggestions] = React.useState<ISuggestionItem[]>();
+	    
+	    const getSearchQuery = (filter: string) =>
+        `https://services.odata.org/V3/OData/OData.svc/Products?$filter=substringof('${filter}',Description)`;
+    
+      class Product implements ISuggestionItem {
+        constructor(
+          private ID: string,
+          private Name: string,
+          private Description: string,
+          private Price?: number
+        ) {}
+        getSearchText: () => string = () => {
+          return this.Name;
+        };
+        getSuggestionItem(query?: string) {
+          return (
+            <div key={this.ID} className="suggestionItem">
+              <div className="suggestionTitleRow row">
+                <p className="suggestionTitle col-8">
+                  <HighlightTextView
+                    text={this.Name}
+                    filter={query || ""}
+                  ></HighlightTextView>
+                </p>
+                <p className="suggestionPrice col-4">${this.Price}</p>
+                <div className="col-12 suggestionSubtitle">
+                  <HighlightTextView
+                    text={this.Description}
+                    filter={query || ""}
+                  ></HighlightTextView>
+                </div>
+              </div>
+            </div>
+          );
+        }
+      }
+      const onChangeDynamic = (newText?: string) => {
+        if (!newText || newText.trim().length < queryThreshold) {
+          setSuggestions(undefined);
+        } else {
+          setProgress(true);
+          fetch(getSearchQuery(newText), {
+            headers: { Accept: "application/json" },
+          })
+            .then((result) => result.json())
+            .then((result) => {
+              let products = result.value.map(
+                (val: any) =>
+                  new Product(val.ID, val.Name, val.Description, val.Price)
+              );
+              console.log(products);
+              setDynamicSuggestions(products);
+              setProgress(false);
+            });
+        }
+      };
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    <AutocompleteSearchBox    
+	    className="search-box"
+        onSuggestionClicked={onSuggestionClicked}
+        onChange={(_, newValue) => {
+	        onChangeDynamic(newValue);
+        }}
+        suggestions={dynamicSuggestions}
+        inProgress={inProgress}
+        >
+    </AutocompleteSearchBox>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## RenderIf
+A component for conditional rendering in react.
+If you are like me, you hate mixing javascript into the jsx code as it ruins the readability and formatting of the code.
 
-## Learn More
+### Usual conditional rendering
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    {inProgress ? <div>Loading...</div> : <div>Loaded</div>}
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  or
+
+    {inProgress && <div>Loading...</div>}
+
+### Using RenderIf
+
+    <RenderIf  condition={inProgress}>
+	    Loading...
+    </RenderIf>
+
+This may not look significant difference in the above example but it makes a huge impact in case of nested conditions and complex elements.
+
+    <RenderIf condition={inProgress}>
+    	<div className="inline">
+    	  Loading <RenderIf condition={page > 0}>more results</RenderIf>
+    	  <RenderIf condition={page === 0}> the default results</RenderIf>
+    	</div>
+    </RenderIf>
+
+## HighlightTextView
+A text view that highlights the matching part of the text. Specially useful in filters and searches.
+
+### `Usage`
+
+    <HighlightTextView  text={result.description}  filter={query}></HighlightTextView>
+All the text snippets that match the query will be highlighted (turned to bold). It makes it find the matching terms in a large text.
+The same has been used in the `AutocompleteSearchBox` with text suggestions mentioned above.
+You can use it while building the suggestion items for `AutocompleteSearchBox` with custom suggestions.
+
+
+> We will keep adding more components and utilities into the package. Keep watching for updates. Feel free to report issues if you find any, post feature requests and contribute to the development.
