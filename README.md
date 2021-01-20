@@ -2,7 +2,7 @@
 # AutocompleteSearchBox
 This package is a suite of various react components and utilities.
 
-## AutocompleteSearchBox
+## AutocompleteSearchBox 
 This component is an extension to the [@FluentUI SearchBox](https://developer.microsoft.com/en-us/fluentui#/controls/web/searchbox) to provide auto complete suggestions. 
 All the props available for the FluentUI SearchBox also apply to AutocompleteSearchBox. 
 The additional props are
@@ -144,3 +144,43 @@ In this mode, you pass the suggestions as an array of objects that implement `IS
         inProgress={inProgress}
         >
     </AutocompleteSearchBox>
+
+## RenderIf
+A component for conditional rendering in react.
+If you are like me, you hate mixing javascript into the jsx code as it ruins the readability and formatting of the code.
+
+### Usual conditional rendering
+
+    {inProgress ? <div>Loading...</div> : <div>Loaded</div>}
+
+  or
+
+    {inProgress && <div>Loading...</div>}
+
+### Using RenderIf
+
+    <RenderIf  condition={inProgress}>
+	    Loading...
+    </RenderIf>
+
+This may not look significant difference in the above example but it makes a huge impact in case of nested conditions and complex elements.
+
+    <RenderIf condition={inProgress}>
+    	<div className="inline">
+    	  Loading <RenderIf condition={page > 0}>more results</RenderIf>
+    	  <RenderIf condition={page === 0}> the default results</RenderIf>
+    	</div>
+    </RenderIf>
+
+## HighlightTextView
+A text view that highlights the matching part of the text. Specially useful in filters and searches.
+
+### `Usage`
+
+    <HighlightTextView  text={result.description}  filter={query}></HighlightTextView>
+All the text snippets that match the query will be highlighted (turned to bold). It makes it find the matching terms in a large text.
+The same has been used in the `AutocompleteSearchBox` with text suggestions mentioned above.
+You can use it while building the suggestion items for `AutocompleteSearchBox` with custom suggestions.
+
+
+> We will keep adding more components and utilities into the package. Keep watching for updates. Feel free to report issues if you find any, post feature requests and contribute to the development.
