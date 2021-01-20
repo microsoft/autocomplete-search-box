@@ -16,9 +16,10 @@ import {
 } from "@fluentui/react";
 import React from "react";
 import { RenderIf } from "..";
+import HighlightTextView from "../Utils/HighlightTextView";
 
 export interface ISuggestionItem {
-  getSuggestionItem: () => JSX.Element;
+  getSuggestionItem: (query?: string) => JSX.Element;
   getSearchText: () => string;
 }
 
@@ -145,7 +146,7 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
             className="oneSuggestion"
             role="listitem"
           >
-            {suggestion.getSuggestionItem()}
+            {suggestion.getSuggestionItem(query)}
           </Link>
         );
       }
@@ -167,7 +168,7 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
           onClick={(e) => onSuggestionClicked(suggestion)}
           style={defaultSuggestionItem}
         >
-          {suggestion}
+         <HighlightTextView text={suggestion} filter={query}></HighlightTextView> 
         </Link>
       </div>
     );

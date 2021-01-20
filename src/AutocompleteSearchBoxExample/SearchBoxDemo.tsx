@@ -4,6 +4,7 @@ import AutocompleteSearchBox, {
 } from "../libs/AutocompleteSearchBox/AutocompleteSearchBox";
 import "./SearchBoxDemo.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import HighlightTextView from "../libs/Utils/HighlightTextView";
 
 const SearchBoxDemo = () => {
   const heroes = [
@@ -35,13 +36,14 @@ const SearchBoxDemo = () => {
     );
   };
 
-  const getSearchQuery = (filter: string) =>
-    `https://services.odata.org/V3/OData/OData.svc/Products?$filter=substringof('${filter}',Description)`;
-  const queryThreshold = 1;
+  const queryThreshold = 3;
   const [inProgress, setProgress] = React.useState(false);
   const [dynamicSuggestions, setDynamicSuggestions] = React.useState<
     ISuggestionItem[]
   >();
+
+  const getSearchQuery = (filter: string) =>
+    `https://services.odata.org/V3/OData/OData.svc/Products?$filter=substringof('${filter}',Description)`;
 
   class Product implements ISuggestionItem {
     constructor(
@@ -53,13 +55,23 @@ const SearchBoxDemo = () => {
     getSearchText: () => string = () => {
       return this.Name;
     };
-    getSuggestionItem() {
+    getSuggestionItem(query?: string) {
       return (
         <div key={this.ID} className="suggestionItem">
           <div className="suggestionTitleRow row">
-            <p className="suggestionTitle col-8">{this.Name}</p>
+            <p className="suggestionTitle col-8">
+              <HighlightTextView
+                text={this.Name}
+                filter={query || ""}
+              ></HighlightTextView>
+            </p>
             <p className="suggestionPrice col-4">${this.Price}</p>
-            <div className="col-12 suggestionSubtitle">{this.Description}</div>
+            <div className="col-12 suggestionSubtitle">
+              <HighlightTextView
+                text={this.Description}
+                filter={query || ""}
+              ></HighlightTextView>
+            </div>
           </div>
         </div>
       );
@@ -89,7 +101,7 @@ const SearchBoxDemo = () => {
   return (
     <div>
       <div className="search-panel">
-        <span>With Static suggestions</span>
+        <span>With string suggestions</span>
         <AutocompleteSearchBox
           className="search-box"
           onSuggestionClicked={onSuggestionClicked}
@@ -102,7 +114,7 @@ const SearchBoxDemo = () => {
       <br />
       <br />
       <div className="search-panel">
-        <span>With dynamic suggestions</span>
+        <span>With custom layout suggestions</span>
         <AutocompleteSearchBox
           className="search-box"
           onSuggestionClicked={onSuggestionClicked}

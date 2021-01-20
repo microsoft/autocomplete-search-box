@@ -1,22 +1,8 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = exports.RenderIf = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var RenderIf = function RenderIf(props) {
-  if (props.condition) {
-    return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, props.children);
-  }
-
-  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null);
+import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
+export var RenderIf = function (props) {
+    if (props.condition) {
+        return _jsx(_Fragment, { children: props.children }, void 0);
+    }
+    return _jsx(_Fragment, {}, void 0);
 };
-
-exports.RenderIf = RenderIf;
-var _default = RenderIf;
-exports["default"] = _default;
+export default RenderIf;

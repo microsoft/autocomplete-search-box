@@ -17,10 +17,12 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+    "declaration": true,
+    "noEmit": false,
+    "jsx": "react-jsx",
+    "outDir": "dist",
   },
   "include": [
-    "src"
-, "libs/AutocompleteSearchBox/AutocompleteSearchBox.tsx"]
+    "src/libs"
+  ]
 }
