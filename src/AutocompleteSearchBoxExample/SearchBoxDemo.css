@@ -17,7 +17,6 @@
 .suggestionItem {
     /* padding-left: 5px;
     padding-right: 5px; */
-    width: 350px;
     border-bottom: 1px solid darkgray;
 }
 
@@ -30,7 +29,9 @@
 }
 
 .suggestionTitleRow{
-    display: inline;
+    display: flex;
+    margin-right: 0px!important;
+    margin-left: 0px!important;
 }
 .suggestionTitle{
     font-weight: bold;

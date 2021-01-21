@@ -64,7 +64,7 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
       overflow: "hidden",
       //maxHeight: '500px!important'
       top: "0px!important",
-      left: "0px",
+      left: "0px!important",
       selectors: {
         "@media(max-width: 600px)": {
           top: "0px",
@@ -139,7 +139,7 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
       } else {
         views.push(
           <Link
-            style={{ margin: "2px" }}
+            style={{ margin: "2px" ,width: "95%"}}
             key={i}
             onKeyPress={(e) => onSuggestionKeyDown(e, suggestion)}
             onClick={(e) => onSuggestionClicked(suggestion)}
