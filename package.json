@@ -1,6 +1,6 @@
 {
   "name": "@microsoft/autocomplete-search-box",
-  "version": "1.0.12",
+  "version": "1.0.14",
   "private": false,
   "dependencies": {
     "@fluentui/react": "^7.155.3"
@@ -36,10 +36,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "clean": "if exist dist rd /s /q dist",
-    "prepare": "npm run clean && mkdir dist & npm version patch --no-git-tag-version",
+    "prepareBuild": "npm run clean && mkdir dist & npm version patch --no-git-tag-version",
     "compile": "set NODE_ENV=production & babel src/libs --out-dir dist --extensions \".ts,.tsx\" --copy-files",
     "copy": "cpx \"{package.json,README.md}\" dist",
-    "build": "npm run prepare && npm run compile && tsc && npm run copy"
+    "build": "npm run prepareBuild && npm run compile && tsc && npm run copy",
+    "prepare": "npm run build"
   },
   "babel": {
     "presets": [
@@ -53,10 +54,6 @@
       "**/*.stories.js"
     ]
   },
-  "files": [
-    "dist",
-    "README.md"
-  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "eslintConfig": {
