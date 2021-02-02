@@ -37,6 +37,7 @@ const SearchBoxDemo = () => {
   };
 
   const queryThreshold = 3;
+  const debounceTime = 500;
   const [inProgress, setProgress] = React.useState(false);
   const [dynamicSuggestions, setDynamicSuggestions] = React.useState<
     ISuggestionItem[]
@@ -123,6 +124,7 @@ const SearchBoxDemo = () => {
           }}
           suggestions={dynamicSuggestions}
           inProgress={inProgress}
+          debounceTime={debounceTime}
         ></AutocompleteSearchBox>
       </div>
     </div>
