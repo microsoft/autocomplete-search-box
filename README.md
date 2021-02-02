@@ -1,4 +1,5 @@
 
+
 # AutocompleteSearchBox
 This package is a suite of various react components and utilities.
 
@@ -65,6 +66,11 @@ In this mode you pass the suggestions as a string array.
        }}
        suggestions={suggestions}>
      </AutocompleteSearchBox>
+     
+***className*** : CSS class to style the component as per your need.
+***onSuggestionClicked*** : Called when a suggestion item is clicked
+***onChange*** : Called when query in the searchbox is changed (typing/pasting etc)
+***suggestions*** : A list of suggestion items (string[] or ISuggestionItem[]) to be shown.  
 
 ### With custom layout suggestions
 ![AutocompleteSearchBox with custom suggestions](https://isearchutils.azureedge.net/img/customSuggestions.jpg)
@@ -142,8 +148,12 @@ In this mode, you pass the suggestions as an array of objects that implement `IS
         }}
         suggestions={dynamicSuggestions}
         inProgress={inProgress}
+		debounceTime={500}
         >
     </AutocompleteSearchBox>
+
+***inProgress***: If set true, a progress indicator is displayed on top of the suggestion callout.
+***debounceTime*** : Time in miliseconds. When set, the onChange is called after this delay once user stops typing. Used to avoid calling API for each character typed.
 
 ## RenderIf
 A component for conditional rendering in react.
