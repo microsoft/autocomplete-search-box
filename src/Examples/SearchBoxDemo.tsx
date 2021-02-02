@@ -5,6 +5,7 @@ import AutocompleteSearchBox, {
 import "./SearchBoxDemo.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import HighlightTextView from "../libs/Utils/HighlightTextView";
+import { Stack } from "@fluentui/react";
 
 const SearchBoxDemo = () => {
   const heroes = [
@@ -103,14 +104,18 @@ const SearchBoxDemo = () => {
     <div>
       <div className="search-panel">
         <span>With string suggestions</span>
+        <Stack tokens={{ childrenGap: 12 }}>
+          <Stack horizontal >
         <AutocompleteSearchBox
-          className="search-box"
+          // className="search-box"
           onSuggestionClicked={onSuggestionClicked}
           onChange={(_, newValue) => {
             onChange(newValue);
           }}
           suggestions={suggestions}
         ></AutocompleteSearchBox>
+        </Stack>
+        </Stack>
       </div>
       <br />
       <br />

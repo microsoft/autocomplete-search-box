@@ -72,7 +72,6 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
       boxShadow: DefaultEffects.elevation4,
       borderRadius: 2,
       marginTop: 0,
-      maxWidth: 800,
       width: getCalloutWidth(),
       minWidth: "200px",
       overflow: "hidden",
@@ -219,7 +218,7 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
   }, [query]);
 
   return (
-    <>
+    <div style={{display:"block"}}>
       <div className={props.className}>
         <div ref={textInput}>
           <SearchBox
@@ -257,7 +256,7 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
           </FocusZone>
         </Callout>
       </RenderIf>
-    </>
+    </div>
   );
 };
 
