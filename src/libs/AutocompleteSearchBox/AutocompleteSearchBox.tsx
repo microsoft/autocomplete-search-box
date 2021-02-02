@@ -13,10 +13,12 @@ import {
   FocusZoneTabbableElements,
   Link,
   KeyCodes,
+  getScrollbarWidth,
 } from "@fluentui/react";
 import React from "react";
 import { RenderIf } from "..";
 import HighlightTextView from "../Utils/HighlightTextView";
+import Axios from "axios";
 
 export interface ISuggestionItem {
   getSuggestionItem: (query?: string) => JSX.Element;
@@ -27,6 +29,7 @@ interface IAutocompleteSearchBoxProps extends ISearchBoxProps {
   suggestions?: string[] | ISuggestionItem[];
   onSuggestionClicked: (suggestion: string | ISuggestionItem) => void;
   inProgress?: boolean;
+  debounceTime?:number;
 }
 const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
   const textInput = React.useRef<HTMLDivElement>(null);
@@ -53,24 +56,35 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
       paddingBottom: "4px",
     },
   };
+
+  const getCalloutWidth =() =>{
+    let calloutWidth= textInput.current?.offsetWidth;
+    return calloutWidth+"px!important";
+  }
+
+  const getLeftShift =() =>{
+    let leftShift= textInput.current?.offsetLeft;
+    return leftShift+"px!important";
+  }
+
   const typeAheadCalloutStyle: Partial<ICalloutContentStyles> = {
     root: {
       boxShadow: DefaultEffects.elevation4,
       borderRadius: 2,
       marginTop: 0,
       maxWidth: 800,
-      width: "100%",
-      minWidth: "250px",
+      width: getCalloutWidth(),
+      minWidth: "200px",
       overflow: "hidden",
       //maxHeight: '500px!important'
       top: "0px!important",
-      left: "0px!important",
+      left: getLeftShift(),
       selectors: {
         "@media(max-width: 600px)": {
           top: "0px",
-          left: "0px",
+          left:getLeftShift(),
           bottom: "-200px!important",
-          minWidth: "250px",
+          minWidth: "200px",
         },
       },
     },
@@ -188,11 +202,26 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
     newValue?: string | undefined
   ) => {
     setQuery(newValue || "");
-    if (props.onChange) props.onChange(event, newValue);
+    //     if(props.onChange)props.onChange(event, newValue)}, 500);
   };
+
+  React.useEffect(() => {
+    if (props.onChange) {
+      const { cancel, token } = Axios.CancelToken.source();
+      const timeOutId = setTimeout(async () => {
+        
+        if(props.onChange)props.onChange(undefined,query)},props.debounceTime||0);
+        return () => {
+          cancel("No longer latest query");
+          clearTimeout(timeOutId);
+        };
+    }
+  }, [query]);
+
   return (
-    <div style={searchContainer}>
-      <div ref={textInput} className="searchBar">
+    <>
+      <div className={props.className}>
+      <div ref={textInput}>
         <SearchBox
           {...props}
           autoComplete="off"
@@ -201,6 +230,7 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
           onKeyDown={onKeyDown}
           value={query}
         ></SearchBox>
+      </div>
       </div>
       <RenderIf
         condition={isLoading || (suggestions !== undefined && isCallOutVisible)}
@@ -227,7 +257,7 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
           </FocusZone>
         </Callout>
       </RenderIf>
-    </div>
+    </>
   );
 };
 

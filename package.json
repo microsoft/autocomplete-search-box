@@ -3,7 +3,8 @@
   "version": "1.0.14",
   "private": false,
   "dependencies": {
-    "@fluentui/react": "^7.155.3"
+    "@fluentui/react": "^7.155.3",
+    "axios": "^0.21.1"
   },
   "devDependencies": {
     "@babel/cli": "7.12.1",
