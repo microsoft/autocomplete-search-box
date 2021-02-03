@@ -104,16 +104,18 @@ const SearchBoxDemo = () => {
     <div>
       <div className="search-panel">
         <span>With string suggestions</span>
+        <Stack>
         <Stack tokens={{ childrenGap: 12 }}>
-          <Stack horizontal >
-        <AutocompleteSearchBox
-          // className="search-box"
-          onSuggestionClicked={onSuggestionClicked}
-          onChange={(_, newValue) => {
-            onChange(newValue);
-          }}
-          suggestions={suggestions}
-        ></AutocompleteSearchBox>
+          <Stack horizontal  verticalAlign="end" horizontalAlign="center">
+          <AutocompleteSearchBox
+            //className="search-box"
+            onSuggestionClicked={onSuggestionClicked}
+            onChange={(_, newValue) => {
+              onChange(newValue);
+            }}
+            suggestions={suggestions}
+          ></AutocompleteSearchBox>
+        </Stack>
         </Stack>
         </Stack>
       </div>
