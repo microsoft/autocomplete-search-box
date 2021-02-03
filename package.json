@@ -1,7 +1,8 @@
 {
   "name": "@microsoft/autocomplete-search-box",
-  "version": "1.0.14",
+  "version": "1.0.17",
   "private": false,
+  "description": "A suite of reusable components and utilities. AutocompleteSearchBox is a wrapper over FluentUI Searchbox to provide search suggestions. RenderIf is used forconditional rendering. HighlightTextView highlights the matching parts of the text based on provided filter.",
   "dependencies": {
     "@fluentui/react": "^7.155.3",
     "axios": "^0.21.1"
