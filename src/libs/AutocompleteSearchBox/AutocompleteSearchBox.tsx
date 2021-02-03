@@ -41,6 +41,7 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
   const [suggestions, setSuggestions] = React.useState<
     string[] | ISuggestionItem[]
   >();
+  const [suggestionClicked,setSuggestionClicked]=React.useState(false);
 
   React.useEffect(() => {
     setSuggestions(props.suggestions);
@@ -99,7 +100,9 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
     },
   };
   const onFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-    setIsCallOutVisible(suggestions !== undefined && suggestions.length > 0);
+    setSuggestionClicked(false);
+    //setIsCallOutVisible(suggestions !== undefined && suggestions.length > 0);
+    setIsCallOutVisible(false);
 
     if (props.onFocus) props.onFocus(event);
   };
@@ -127,9 +130,10 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
   const onSuggestionClicked = (suggestion: string | ISuggestionItem) => {
     let query =
       typeof suggestion === "string" ? suggestion : suggestion.getSearchText();
+    setSuggestionClicked(true);
     setQuery(query);
-    hideSuggestions();
     props.onSuggestionClicked(suggestion);
+    hideSuggestions();
   };
 
   const hideSuggestions = () => {
@@ -201,6 +205,7 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
     event?: React.ChangeEvent<HTMLInputElement> | undefined,
     newValue?: string | undefined
   ) => {
+    setSuggestionClicked(false);
     setQuery(newValue || "");
     //     if(props.onChange)props.onChange(event, newValue)}, 500);
   };
@@ -209,7 +214,7 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
     if (props.onChange) {
       const { cancel, token } = Axios.CancelToken.source();
       const timeOutId = setTimeout(async () => {
-        if (props.onChange) props.onChange(undefined, query)
+        if (props.onChange &&!suggestionClicked) props.onChange(undefined, query)
       }, props.debounceTime || 0);
       return () => {
         cancel("No longer latest query");
