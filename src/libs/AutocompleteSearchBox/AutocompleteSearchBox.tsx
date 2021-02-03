@@ -77,12 +77,13 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
       overflow: "hidden",
       //maxHeight: '500px!important'
       top: "0px!important",
-      left: getLeftShift(),
+      //left: "0px!important",
+      //getLeftShift(),
       selectors: {
         "@media(max-width: 600px)": {
           top: "0px",
-          left: getLeftShift(),
-          bottom: "-200px!important",
+          //left: getLeftShift(),
+          // bottom: "-200px!important",
           minWidth: "200px",
         },
       },
