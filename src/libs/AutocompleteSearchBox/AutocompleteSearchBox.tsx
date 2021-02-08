@@ -78,11 +78,12 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
       overflow: "hidden",
       //maxHeight: '500px!important'
       top: "0px!important",
-      //left: "0px!important",
+      left: "0px!important",
       //getLeftShift(),
       selectors: {
         "@media(max-width: 600px)": {
           top: "0px",
+          left: "0px!important",
           //left: getLeftShift(),
           // bottom: "-200px!important",
           minWidth: "200px",
@@ -103,7 +104,6 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
     setSuggestionClicked(false);
     //setIsCallOutVisible(suggestions !== undefined && suggestions.length > 0);
     setIsCallOutVisible(false);
-
     if (props.onFocus) props.onFocus(event);
   };
 
@@ -224,18 +224,16 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
   }, [query]);
 
   return (
-    <div style={{display:"block"}}>
-      <div className={props.className}>
-        <div ref={textInput}>
-          <SearchBox
-            {...props}
-            autoComplete="off"
-            onChange={onChange}
-            onFocus={onFocus}
-            onKeyDown={onKeyDown}
-            value={query}
-          ></SearchBox>
-        </div>
+    <div style={searchContainer}>
+    <div ref={textInput} className={props.className}>
+      <SearchBox
+        {...props}
+        autoComplete="off"
+        onChange={onChange}
+        onFocus={onFocus}
+        onKeyDown={onKeyDown}
+        value={query}
+      ></SearchBox>
       </div>
       <RenderIf
         condition={isLoading || (suggestions !== undefined && isCallOutVisible)}

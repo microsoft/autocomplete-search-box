@@ -49,3 +49,8 @@
     font-size: smaller;
     text-align: left;
 }
+
+.search-box-try {
+    width: 350px;
+    margin-right:10px;
+  }
