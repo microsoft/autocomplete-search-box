@@ -1,6 +1,6 @@
 {
   "name": "@microsoft/autocomplete-search-box",
-  "version": "1.0.14",
+  "version": "1.0.20",
   "private": false,
   "dependencies": {
     "@fluentui/react": "^7.155.3",

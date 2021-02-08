@@ -5,7 +5,7 @@ import AutocompleteSearchBox, {
 import "./SearchBoxDemo.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import HighlightTextView from "../libs/Utils/HighlightTextView";
-import { Stack } from "@fluentui/react";
+import { IStackProps, ScrollablePane, Stack } from "@fluentui/react";
 
 const SearchBoxDemo = () => {
   const heroes = [
@@ -31,6 +31,7 @@ const SearchBoxDemo = () => {
       );
     }
   };
+
   const onSuggestionClicked = (suggestion: string | ISuggestionItem) => {
     alert(
       typeof suggestion === "string" ? suggestion : suggestion.getSearchText()
@@ -53,7 +54,7 @@ const SearchBoxDemo = () => {
       private Name: string,
       private Description: string,
       private Price?: number
-    ) {}
+    ) { }
     getSearchText: () => string = () => {
       return this.Name;
     };
@@ -105,18 +106,18 @@ const SearchBoxDemo = () => {
       <div className="search-panel">
         <span>With string suggestions</span>
         <Stack>
-        <Stack tokens={{ childrenGap: 12 }}>
-          <Stack horizontal  verticalAlign="end" horizontalAlign="center">
-          <AutocompleteSearchBox
-            //className="search-box"
-            onSuggestionClicked={onSuggestionClicked}
-            onChange={(_, newValue) => {
-              onChange(newValue);
-            }}
-            suggestions={suggestions}
-          ></AutocompleteSearchBox>
-        </Stack>
-        </Stack>
+          <Stack tokens={{ childrenGap: 12 }}>
+            <Stack horizontal verticalAlign="end" horizontalAlign="center">
+              <AutocompleteSearchBox
+                className="search-box-try"
+                onSuggestionClicked={onSuggestionClicked}
+                onChange={(_, newValue) => {
+                  onChange(newValue);
+                }}
+                suggestions={suggestions}
+              ></AutocompleteSearchBox>
+            </Stack>
+          </Stack>
         </Stack>
       </div>
       <br />
