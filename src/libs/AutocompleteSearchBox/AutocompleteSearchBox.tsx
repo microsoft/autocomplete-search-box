@@ -13,7 +13,6 @@ import {
   FocusZoneTabbableElements,
   Link,
   KeyCodes,
-  getScrollbarWidth,
 } from "@fluentui/react";
 import React from "react";
 import { RenderIf } from "..";
@@ -63,10 +62,10 @@ const AutocompleteSearchBox = (props: IAutocompleteSearchBoxProps) => {
     return calloutWidth + "px!important";
   }
 
-  const getLeftShift = () => {
-    let leftShift = textInput.current?.offsetLeft;
-    return leftShift + "px!important";
-  }
+  // const getLeftShift = () => {
+  //   let leftShift = textInput.current?.offsetLeft;
+  //   return leftShift + "px!important";
+  // }
 
   const typeAheadCalloutStyle: Partial<ICalloutContentStyles> = {
     root: {
