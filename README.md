@@ -1,7 +1,24 @@
 
 
+
 # AutocompleteSearchBox
-This package is a suite of various react components and utilities.
+This package is a suite of various react components and utilities. 
+Its currently available in a private Microsoft internal feed, thus accessible only for Microsoft employees.
+
+## How to install?
+
+ 1. Add below line in your .npmrc file. (create one if not exists)
+ 
+     @microsoft:registry=https://microsoftit.pkgs.visualstudio.com/_packaging/Finance/npm/registry/
+    always-auth=true
+
+ 2. Install the package with npm
+ 
+     npm install @microsoft/autocomplete-search-box 
+
+3. Now import the components from '@microsoft/autocomplete-search-box'
+
+    import { AutocompleteSearchBox, RenderIf, HighlightTextView } from  '@microsoft/autocomplete-search-box';
 
 ## AutocompleteSearchBox 
 This component is an extension to the [@FluentUI SearchBox](https://developer.microsoft.com/en-us/fluentui#/controls/web/searchbox) to provide auto complete suggestions. 
