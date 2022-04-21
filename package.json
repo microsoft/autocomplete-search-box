@@ -1,6 +1,6 @@
 {
   "name": "@microsoft/autocomplete-search-box",
-  "version": "1.0.23",
+  "version": "1.0.29",
   "private": false,
   "description": "A suite of reusable components and utilities. AutocompleteSearchBox is a wrapper over FluentUI Searchbox to provide search suggestions. RenderIf is used forconditional rendering. HighlightTextView highlights the matching parts of the text based on provided filter.",
   "dependencies": {
@@ -8,7 +8,7 @@
     "axios": "^0.21.1"
   },
   "devDependencies": {
-    "@babel/cli": "7.12.1",
+    "@babel/cli": "7.17.6",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.1",
     "@babel/preset-typescript": "^7.12.1",
@@ -20,7 +20,6 @@
     "@types/react": "^16.14.2",
     "@types/react-dom": "^16.9.10",
     "bootstrap": "4.5.0",
-    "cpx": "^1.5.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-scripts": "3.4.4",
@@ -40,7 +39,7 @@
     "clean": "if exist dist rd /s /q dist",
     "prepareBuild": "npm run clean && mkdir dist & npm version patch --no-git-tag-version",
     "compile": "set NODE_ENV=production & babel src/libs --out-dir dist --extensions \".ts,.tsx\" --copy-files",
-    "copy": "cpx \"{package.json,README.md}\" dist",
+    "copy": "node copy-files",
     "build": "npm run prepareBuild && npm run compile && tsc && npm run copy",
     "prepare": "npm run build"
   },
