@@ -23,9 +23,9 @@ const SearchBoxDemo = () => {
   const onChange = (newText?: string) => {
     if (!newText || newText.trim() === "") {
       setSuggestions(undefined);
-    } else {
+    } else { 
       setSuggestions(
-        heroes.filter((hero) =>
+        heroes.filter((hero) => 
           hero.toLowerCase().includes(newText.toLowerCase())
         )
       );
@@ -45,8 +45,21 @@ const SearchBoxDemo = () => {
     ISuggestionItem[]
   >();
 
-  const getSearchQuery = (filter: string) =>
-    `https://services.odata.org/V3/OData/OData.svc/Products?$filter=substringof('${filter}',Description)`;
+  const filterModifications = (filter: string)=>{
+    if (!filter || filter.trim() === "") {
+      filter="";
+    }
+    else {
+      const words = filter.split(" ");
+      filter = words.map((word) => { 
+          return word[0].toUpperCase() + word.substring(1).split("").map(letter=>letter.toLowerCase()).join(""); 
+      }).join(" ");
+    }
+    return filter;
+  }
+
+  const getSearchQuery = (filter: string) => `https://services.odata.org/V3/OData/OData.svc/Products?$filter=substringof('${filterModifications(filter)}',Description)`;
+  
 
   class Product implements ISuggestionItem {
     constructor(
